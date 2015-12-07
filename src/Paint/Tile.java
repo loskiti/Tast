@@ -1,6 +1,8 @@
 package Paint;
+/**
+ * одна плитка карты
+ */
 
-// одна плитка карты
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.HashMap;
@@ -9,11 +11,20 @@ import javax.swing.ImageIcon;
 import Base.Game;
 
 public class Tile implements IRenderToConvas {
-	// размер плитки
+
+	/**
+	 * размер плитки
+	 */
 	final public static int SIZE = 40;
 	public String image;
-	// координаты плитки
+	/**
+	 * координаты плитки
+	 */
+
 	public int X;
+	/**
+	 * координаты плитки
+	 */
 	public int Y;
 	public boolean isPossible;
 	private static HashMap<String, Image> images = new HashMap<String, Image>();
@@ -53,7 +64,10 @@ public class Tile implements IRenderToConvas {
 		return layerDeep;
 	}
 
-	// вернуть изображение по ссылке
+	/**
+	 * вернуть изображение по ссылке
+	 */
+
 	public static Image getImage(String name) {
 		if (images.get(name) == null) {
 			images.put(name, new ImageIcon(Tile.class.getResource(name)).getImage());
@@ -102,13 +116,11 @@ public class Tile implements IRenderToConvas {
 
 			return new TileSprite("/data/grassland.png", 0, 0, 64, 32, 192, 32, true, 0, 10);
 		case 15:
-			// return new TileSprite("/data/elfire.gif", 0, 0, 72, 40, 5, 200,
-			// true, 0, 10);
+
 			return new TileSprite("/data/4.png", 0, 0, 51, 40, 73, 0, true, 0, 10);
 
 		case 16:
-			// return new TileSprite("/data/elfire.gif", 0, 0, 72, 40, 421, 99,
-			// true, 0, 10);
+
 			return new TileSprite("/data/4.png", 0, 0, 51, 40, 8, 0, true, 0, 10);
 		default:
 			return null;

@@ -1,6 +1,8 @@
 package Paint;
+/**
+ * графика
+ */
 
-//графика
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,11 +13,17 @@ import java.util.Comparator;
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
-	// двойня буферизация
-	protected Image bufer = null;
-	protected Color backGround = Color.black;
-	// элементы, которые надо добавить на экран
-	protected ArrayList<IRenderToConvas> renders = new ArrayList<IRenderToConvas>();
+
+	/**
+	 * двойня буферизация
+	 */
+	public Image bufer = null;
+	public Color backGround = Color.black;
+
+	/**
+	 * элементы, которые надо добавить на экран
+	 */
+	public ArrayList<IRenderToConvas> renders = new ArrayList<IRenderToConvas>();
 	final public static int LAYER_DEEP1 = 100;
 
 	public void addRenders(IRenderToConvas render) {
@@ -26,8 +34,9 @@ public class Canvas extends JPanel {
 		renders.clear();
 	}
 
-	// Сортировка объектов по глубине
-
+	/**
+	 * Сортировка объектов по глубине
+	 */
 	public static Comparator<IRenderToConvas> comparatorDeep = new Comparator<IRenderToConvas>() {
 		@Override
 		public int compare(IRenderToConvas o1, IRenderToConvas o2) {
@@ -36,7 +45,10 @@ public class Canvas extends JPanel {
 		}
 	};
 
-	// перерисовка карты
+	/**
+	 * перерисовка карты
+	 */
+
 	public void paintWorld(Graphics g) {
 
 		g.clearRect(0, 0, getWidth(), getHeight());
@@ -49,7 +61,10 @@ public class Canvas extends JPanel {
 		}
 	}
 
-	// двойная буферизация
+	/**
+	 * двойная буферизация
+	 */
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);

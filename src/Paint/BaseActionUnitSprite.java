@@ -2,7 +2,7 @@ package Paint;
 
 public abstract class BaseActionUnitSprite extends UnitSprite {
 	 /**
-     * Действие шагания персонажа.
+     * Сделать шаг
      */
     public void actionStep() {
         if(imageMaxX == 10 && imageMinX == 4) {
@@ -13,7 +13,7 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
     }
     
     /**
-     * Действие стояния на месте персонажа.
+     * Стоять на месте 
      */
     public void actionStand() {
         if(imageMaxX == 3 && imageMinX == 0) {
@@ -24,28 +24,28 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
     }
     
     /**
-     * Поворот наверх.
+     * Поворот наверх
      */
     public void turnTop() {
     	imageMinY = imageMaxY = imageY = 3;
     }
     
     /**
-     * Поворот налево.
+     * Поворот налево
      */
     public void turnLeft() {
     	imageMinY = imageMaxY = imageY = 1; 
     }
     
     /**
-     * Поворот направо.
+     * Поворот направо
      */
     public void turnRight() {
     	imageMinY = imageMaxY = imageY = 5; 
     }
     
     /**
-     * Поворот вниз.
+     * Поворот вниз
      */
     public void turnBoth() {
     	imageMinY = imageMaxY = imageY = 7;
@@ -71,29 +71,5 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
             actionStep();
         }        
     }
-    public void update1(int dirX,int dirY){
-    	imageX++;
-		if (imageX > imageMaxX) {
-			imageX = imageMinX;
-		}
-		imageY++;
-		if (imageY > imageMaxY) {
-			imageY = imageMinY;
-		}
-    	 if(dirX == 0 && dirY == 0) {
-             actionStand();
-         } else if(dirX == 0 && dirY == 1) {
-             turnBoth();
-             actionStep();
-         } else if(dirX == 0 && dirY == -1) {
-             turnTop();
-             actionStep();
-         } else if(dirX == 1 && dirY == 0) {
-             turnRight();
-             actionStep();
-         } else if(dirX == -1 && dirY == 0) {
-             turnLeft();
-             actionStep();
-         }        
-    }
+    
 }

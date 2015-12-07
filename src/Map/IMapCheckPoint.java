@@ -1,5 +1,8 @@
 package Map;
-// можно ли пройти по плитке
+
+/**
+ * ћожно ли пройти по клетке
+ */
 public interface IMapCheckPoint {
 	boolean check(int x, int y);
 }

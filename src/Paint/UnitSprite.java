@@ -5,19 +5,24 @@ import java.awt.Graphics;
 import Base.Game;
 
 public abstract class UnitSprite extends Unit {
-	// размеры картинки
-	protected int imageWidth = 128;
-	protected int imageHeight = 128;
-	protected int imageX = 0;
-	protected int imageY = 0;
-	// позиции при зацикливании
-	protected int imageMinX = 0;
-	protected int imageMinY = 0;
-	protected int imageMaxX = 0;
-	protected int imageMaxY = 0;
-	// для рисования размеры (для расчета другие)
-	protected int paintWidth = 100;
-	protected int paintHeight = 100;
+
+	public int imageWidth = 128;
+	public int imageHeight = 128;
+	public int imageX = 0;
+	public int imageY = 0;
+	/**
+	 * позиции при зацикливании
+	 */
+	public int imageMinX = 0;
+	public int imageMinY = 0;
+	public int imageMaxX = 0;
+	public int imageMaxY = 0;
+	/**
+	 * для рисования размеры (для расчета другие)
+	 */
+
+	public int paintWidth = 100;
+	public int paintHeight = 100;
 
 	@Override
 	public void render(Graphics g) {

@@ -14,9 +14,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import Map.IMapCheckPoint;
-import Map.Map;
-import Map.Map1;
-import Map.Map2;
+import Map.ActionMap;
+import Map.LabirintMap;
+import Map.BossMap;
 import Map.MapWay;
 import Map.MapWayFind;
 import Paint.Canvas;
@@ -25,24 +25,41 @@ import Paint.Unit;
 
 public class Game {
 
-	protected Canvas canvas;
-	protected Player player;
-	protected Map map;
+	private Canvas canvas;
+	private Player player;
+	private ActionMap map;
 	static PlayAudio audio;
 
-	protected ArrayList<Bot> bots;
+	private ArrayList<Bot> bots;
 
 	static Timer mTimer;
 
-	// использовать изометрическую проекцию
+	/**
+	 * использовать изометрическую проекцию
+	 */
 	final public static boolean USE_ISO = true;
-	// Отступ при рисовании справа
-	final public static int OFFSET_MAP_X = 320;// 10 клеток 32 * 10
-	// для таймера пола
+
+	/**
+	 * Отступ при рисовании справа
+	 */
+	final public static int OFFSET_MAP_X = 320;
+
+	/**
+	 * для таймера пола
+	 */
 	private int timerTile = -1;
+	/**
+	 * координаты ячейки с огнем
+	 */
 	private int deadTileX = 0, deadTileY = 0;
+	/**
+	 * был ли keyEvent 1-true
+	 */
 	private int flag = 0;
 	private int flag1 = 0;
+	/**
+	 * направление keyEvent
+	 */
 	private int x = 0, y = 0;
 
 	public void start() {
@@ -71,6 +88,9 @@ public class Game {
 
 	}
 
+	/**
+	 * конец игры
+	 */
 	public void stop(String name) {
 
 		canvas.addRenders(new Unit() {
@@ -95,20 +115,28 @@ public class Game {
 		mTimer.cancel();
 	}
 
+	/**
+	 * подключение клавиатуры и мыши
+	 */
 	public void Listener() {
 		canvas.setFocusable(true);
 		canvas.addKeyListener(keyListener);
 		canvas.addMouseListener(mouseListener);
 	}
 
+	/**
+	 * отключение клавиатуры и мыши
+	 */
 	public void unListener() {
 		canvas.setFocusable(false);
 		canvas.removeKeyListener(keyListener);
 		canvas.removeMouseListener(mouseListener);
 	}
 
-	// после нажатия на кнопку
-	protected KeyAdapter keyListener = new KeyAdapter() {
+	/**
+	 * нажатие клавиатуры
+	 */
+	public KeyAdapter keyListener = new KeyAdapter() {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -157,7 +185,10 @@ public class Game {
 		}
 
 	};
-	protected MouseAdapter mouseListener = new MouseAdapter() {
+	/**
+	 * клик мыши
+	 */
+	public MouseAdapter mouseListener = new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			flag = 0;
@@ -182,7 +213,10 @@ public class Game {
 		}
 	};
 
-	// создать путь
+	/**
+	 * создать путь
+	 */
+
 	public MapWay makePath(int startX, int startY, int endX, int endY) {
 		MapWayFind mfp = new MapWayFind();
 		mfp.setcheckPoint(new IMapCheckPoint() {
@@ -211,29 +245,27 @@ public class Game {
 
 	public void setMap(int mapId) {
 		if (mapId == 2) {
-			map = new Map2();
+			map = new BossMap();
 			player.mapway = null;
 			player.X = 3 * Tile.SIZE;
 			player.Y = 3 * Tile.SIZE;
-			// устанавливаем статическое позиционирование
+			/**
+			 * статическое позиционирование
+			 */
+
 			player.posUnitX = 3 * Tile.SIZE;
 			player.posUnitY = 3 * Tile.SIZE;
 			player.turnRight();
 			timerTile = 0;
 			bots.clear();
 		} else {
-			map = new Map1();
+			map = new LabirintMap();
 
 			Bot bot;
-			/*
-			 * // проверять на tileisPossible!!!! bd разные месте кинуть for
-			 * (int i = 0; i < 3; i++) { bot = new Bot(); bot.X = bot.posUnitX =
-			 * (6 + i) * Tile.SIZE; bot.Y = bot.posUnitY = 7 * Tile.SIZE;
-			 * bots.add(bot); }
-			 */
 			Random random = new Random();
 			int a = 0, b = 0;
 			int i = 0;
+			// расстановка мобов с 4 секторах карты
 			while (i < 4) {
 				bot = new Bot();
 				if (i == 2)
@@ -262,6 +294,9 @@ public class Game {
 
 	}
 
+	/**
+	 * телепорт на другую карту
+	 */
 	public void changeMap() {
 		int tileX = player.X / Tile.SIZE, tileY = player.Y / Tile.SIZE;
 		int tileId = map.getTile(tileX, tileY);
@@ -271,6 +306,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * обработка событий
+	 */
 	class MyTimerTask extends TimerTask {
 
 		@Override
@@ -279,25 +317,39 @@ public class Game {
 			canvas.cleaneRenders();
 			int W = map.getWidth(), H = map.getHeight();
 			int tileId;
-			// всего клеток на экране
+			/**
+			 * всего клеток на экране
+			 */
+
 			int widthTile = 13, heightTile = 15;
-			// центр
+			/**
+			 * центр
+			 */
 			int centreTileWigdth = widthTile / 2 - 1, centreTileHeight = heightTile / 2 - 1;
-			// какие ячейки надо прорисовывать
+			/**
+			 * какие ячейки надо прорисовывать
+			 */
+
 			int startTileX = (int) Math.floor(Math.abs(player.X - player.posUnitX) / Tile.SIZE);
 			int startTileY = (int) Math.floor(Math.abs(player.Y - player.posUnitY) / Tile.SIZE);
 			int endTileX = widthTile + startTileX > W ? W : widthTile + startTileX;
 			int endTileY = heightTile + startTileY > H ? H : heightTile + startTileY;
-			// cдвиг карты
+
+			/**
+			 * cдвиг карты
+			 */
 			int offsetX = (player.X - player.posUnitX) % Tile.SIZE;
 			int offsetY = (player.Y - player.posUnitY) % Tile.SIZE;
-			// определяем когда двигать карту - а когда должен двигаться
-			// персонаж
+			/**
+			 * определяем когда двигать карту - а когда должен двигаться
+			 * персонаж
+			 */
+
 			boolean movePlayerX = (player.X / Tile.SIZE < centreTileWigdth
 					|| W - player.X / Tile.SIZE < centreTileWigdth + 1),
 					movePlayerY = (player.Y / Tile.SIZE < centreTileHeight
 							|| H - player.Y / Tile.SIZE < centreTileHeight + 2);
-
+			// ячейки с огнем на 2 уровне
 			if (timerTile == 1200) {
 				stop("/data/win.jpg");
 				return;
@@ -327,6 +379,7 @@ public class Game {
 				else
 					paintPlayer("/data/fenix.png", 1634, 301, 41, 58, 20, -35, 270, 100, 150);
 			}
+			// прорисовка карты
 			Tile tile;
 			for (int y = startTileY; y < endTileY; y++) {
 				for (int x = startTileX; x < endTileX; x++) {
@@ -347,7 +400,6 @@ public class Game {
 						}
 					}
 					tile = Tile.getTileId(tileId);
-
 					tile.X = (x - startTileX) * Tile.SIZE;
 					tile.Y = (y - startTileY) * Tile.SIZE;
 					tile.X -= offsetX;
@@ -400,6 +452,7 @@ public class Game {
 					player.posUnitY += player.directY * player.speed;
 				}
 			}
+			// движение при нажаии клавиатуры
 			if (flag != 0) {
 				if (possibleMove()) {
 
@@ -491,7 +544,10 @@ public class Game {
 
 	}
 
-	public void paintPlayer(String name, int offsetX, int offsetY, int width, int hight, int standoffX, int standoffY,
+	/**
+	 * вывод на экран
+	 */
+	private void paintPlayer(String name, int offsetX, int offsetY, int width, int hight, int standoffX, int standoffY,
 			int X, int Y, int layerdoor) {
 		canvas.addRenders(new Tile(name, X, Y, true, 0, layerdoor) {
 			@Override
@@ -511,6 +567,9 @@ public class Game {
 		});
 	}
 
+	/**
+	 * возможно ли движение
+	 */
 	public boolean possibleMove() {
 		int left, right, up, down;
 		boolean isPossible = true;
@@ -539,6 +598,9 @@ public class Game {
 		return isPossible;
 	}
 
+	/**
+	 * возможно ли движение по определенной ячейке карты
+	 */
 	public boolean tileIsPossible(int x, int y) {
 		Tile tile = Tile.getTileId(map.getTile(x, y));
 		return (tile != null && tile.isPossible);

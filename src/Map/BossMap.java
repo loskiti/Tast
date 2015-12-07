@@ -1,11 +1,13 @@
 package Map;
-
+/**
+ * Уровень с боссом
+ */
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class Map2 extends Map {
-	public Map2() {
+public class BossMap extends ActionMap {
+	public BossMap() {
 
 		int n = 10, m = 8;
 		map = new int[n][m];
