@@ -1,17 +1,22 @@
 package Base;
 
+/**
+ *  запуск/ остановка игры
+ */
 import java.awt.Graphics;
-
-// запуск/ остановка игры
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.ImageIcon;
 
 import Map.IMapCheckPoint;
 import Map.ActionMap;
@@ -28,12 +33,9 @@ public class Game {
 	private Canvas canvas;
 	private Player player;
 	private ActionMap map;
-	static PlayAudio audio;
-
-	private ArrayList<Bot> bots;
-
-	static Timer mTimer;
-
+	private PlayAudio audio;
+	private List<Bot> bots;
+	private static Timer mTimer;
 	/**
 	 * использовать изометрическую проекцию
 	 */
@@ -96,10 +98,10 @@ public class Game {
 		canvas.addRenders(new Unit() {
 			@Override
 			public void render(Graphics g) {
-				initiation(name);
-				width = 640;
-				height = 480;
-				g.drawImage(imageUnit, 0, 0, width, height, null);
+				Image image = new ImageIcon(getClass().getResource(name)).getImage();
+				// width = 640;
+				// height = 480;
+				g.drawImage(image, 0, 0, 640, 480, null);
 
 			}
 
@@ -143,28 +145,28 @@ public class Game {
 
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_DOWN: {
-				player.directY = 1;
+				player.setDirectY(1);
 				player.turnBoth();
 				x = 0;
 				y = 1;
 				break;
 			}
 			case KeyEvent.VK_UP: {
-				player.directY = -1;
+				player.setDirectY(-1);
 				player.turnTop();
 				x = 0;
 				y = -1;
 				break;
 			}
 			case KeyEvent.VK_RIGHT: {
-				player.directX = 1;
+				player.setDirectX(1);
 				player.turnRight();
 				x = 1;
 				y = 0;
 				break;
 			}
 			case KeyEvent.VK_LEFT: {
-				player.directX = -1;
+				player.setDirectX(-1);
 				player.turnLeft();
 				x = -1;
 				y = 0;
@@ -177,10 +179,10 @@ public class Game {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				player.directX = 0;
+				player.setDirectX(0);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
-				player.directY = 0;
+				player.setDirectY(0);
 			}
 		}
 
@@ -199,15 +201,15 @@ public class Game {
 				int _offX = (e.getX() - Game.OFFSET_MAP_X), _y = (2 * e.getY() - _offX) / 2,
 						isoX = Math.round((_offX + _y) / Tile.SIZE) + 0 - 0 - 0,
 						isoY = Math.round((_y + Tile.SIZE / 2) / Tile.SIZE) + 0 - 0;
-				startTileX = isoX + Math.round((Math.abs(player.X - player.posUnitX)) / Tile.SIZE);
-				startTileY = isoY + Math.round((Math.abs(player.Y - player.posUnitY)) / Tile.SIZE);
+				startTileX = isoX + Math.round((Math.abs(player.getX() - player.getPosUnitX())) / Tile.SIZE);
+				startTileY = isoY + Math.round((Math.abs(player.getY() - player.getPosUnitY())) / Tile.SIZE);
 			} else {
-				startTileX = (int) Math.floor((Math.abs(player.X - player.posUnitX) + e.getX()) / Tile.SIZE);
-				startTileY = (int) Math.floor((Math.abs(player.Y - player.posUnitY) + e.getY()) / Tile.SIZE);
+				startTileX = (int) Math.floor((Math.abs(player.getX() - player.getPosUnitX()) + e.getX()) / Tile.SIZE);
+				startTileY = (int) Math.floor((Math.abs(player.getY() - player.getPosUnitY()) + e.getY()) / Tile.SIZE);
 			}
 			// создаем путь
 			if (tileIsPossible(startTileX, startTileY)) {
-				MapWay mapPath = makePath(player.X / Tile.SIZE, player.Y / Tile.SIZE, startTileX, startTileY);
+				MapWay mapPath = makePath(player.getX() / Tile.SIZE, player.getY() / Tile.SIZE, startTileX, startTileY);
 				player.mapway = mapPath;
 			}
 		}
@@ -225,7 +227,7 @@ public class Game {
 				if (tileIsPossible(x, y)) {
 					// запрещаем проходить между зомби
 					for (Bot bot : bots) {
-						if (bot.X / Tile.SIZE == x && bot.Y / Tile.SIZE == y) {
+						if (bot.getX() / Tile.SIZE == x && bot.getY() / Tile.SIZE == y) {
 							return false;
 						}
 					}
@@ -247,14 +249,14 @@ public class Game {
 		if (mapId == 2) {
 			map = new BossMap();
 			player.mapway = null;
-			player.X = 3 * Tile.SIZE;
-			player.Y = 3 * Tile.SIZE;
+			player.setX(3 * Tile.SIZE);
+			player.setY(3 * Tile.SIZE);
 			/**
 			 * статическое позиционирование
 			 */
 
-			player.posUnitX = 3 * Tile.SIZE;
-			player.posUnitY = 3 * Tile.SIZE;
+			player.setPosUnitX(3 * Tile.SIZE);
+			player.setPosUnitY(3 * Tile.SIZE);
 			player.turnRight();
 			timerTile = 0;
 			bots.clear();
@@ -275,8 +277,10 @@ public class Game {
 				int x = random.nextInt(13) + 3 + a * 13;
 				int y = random.nextInt(13) + 1 + a * 13;
 				if (tileIsPossible(x, y)) {
-					bot.X = bot.posUnitX = x * Tile.SIZE;
-					bot.Y = bot.posUnitY = y * Tile.SIZE;
+					bot.setX(x * Tile.SIZE);
+					bot.setPosUnitX(x * Tile.SIZE);
+					bot.setY(y * Tile.SIZE);
+					bot.setPosUnitY(y * Tile.SIZE);
 					bots.add(bot);
 					i++;
 					b = 0;
@@ -284,11 +288,11 @@ public class Game {
 
 			}
 			player.mapway = null;
-			player.X = Tile.SIZE;
-			player.Y = Tile.SIZE;
+			player.setX(Tile.SIZE);
+			player.setY(Tile.SIZE);
 			// устанавливаем статическое позиционирование
-			player.posUnitX = Tile.SIZE;
-			player.posUnitY = Tile.SIZE;
+			player.setPosUnitX(Tile.SIZE);
+			player.setPosUnitY(Tile.SIZE);
 
 		}
 
@@ -298,11 +302,12 @@ public class Game {
 	 * телепорт на другую карту
 	 */
 	public void changeMap() {
-		int tileX = player.X / Tile.SIZE, tileY = player.Y / Tile.SIZE;
+		int tileX = player.getX() / Tile.SIZE, tileY = player.getY() / Tile.SIZE;
 		int tileId = map.getTile(tileX, tileY);
+		//String tileId = map.getTile(tileX, tileY);
 		Tile tile = Tile.getTileId(tileId);
-		if (tile.door > 0) {
-			setMap(tile.door);
+		if (tile.getDoor() > 0) {
+			setMap(tile.getDoor());
 		}
 	}
 
@@ -317,6 +322,7 @@ public class Game {
 			canvas.cleaneRenders();
 			int W = map.getWidth(), H = map.getHeight();
 			int tileId;
+			//String tileId;
 			/**
 			 * всего клеток на экране
 			 */
@@ -330,25 +336,25 @@ public class Game {
 			 * какие ячейки надо прорисовывать
 			 */
 
-			int startTileX = (int) Math.floor(Math.abs(player.X - player.posUnitX) / Tile.SIZE);
-			int startTileY = (int) Math.floor(Math.abs(player.Y - player.posUnitY) / Tile.SIZE);
+			int startTileX = (int) Math.floor(Math.abs(player.getX() - player.getPosUnitX()) / Tile.SIZE);
+			int startTileY = (int) Math.floor(Math.abs(player.getY() - player.getPosUnitY()) / Tile.SIZE);
 			int endTileX = widthTile + startTileX > W ? W : widthTile + startTileX;
 			int endTileY = heightTile + startTileY > H ? H : heightTile + startTileY;
 
 			/**
 			 * cдвиг карты
 			 */
-			int offsetX = (player.X - player.posUnitX) % Tile.SIZE;
-			int offsetY = (player.Y - player.posUnitY) % Tile.SIZE;
+			int offsetX = (player.getX() - player.getPosUnitX()) % Tile.SIZE;
+			int offsetY = (player.getY() - player.getPosUnitY()) % Tile.SIZE;
 			/**
 			 * определяем когда двигать карту - а когда должен двигаться
 			 * персонаж
 			 */
 
-			boolean movePlayerX = (player.X / Tile.SIZE < centreTileWigdth
-					|| W - player.X / Tile.SIZE < centreTileWigdth + 1),
-					movePlayerY = (player.Y / Tile.SIZE < centreTileHeight
-							|| H - player.Y / Tile.SIZE < centreTileHeight + 2);
+			boolean movePlayerX = (player.getX() / Tile.SIZE < centreTileWigdth
+					|| W - player.getX() / Tile.SIZE < centreTileWigdth + 1),
+					movePlayerY = (player.getY() / Tile.SIZE < centreTileHeight
+							|| H - player.getY() / Tile.SIZE < centreTileHeight + 2);
 			// ячейки с огнем на 2 уровне
 			if (timerTile == 1200) {
 				stop("/data/win.jpg");
@@ -357,14 +363,14 @@ public class Game {
 
 			if ((timerTile % 120 == 0) && (timerTile > 4)) {
 
-				if ((deadTileX == player.X / Tile.SIZE || deadTileX - 1 == player.X / Tile.SIZE)
-						&& (deadTileY == player.Y / Tile.SIZE || deadTileY - 1 == player.Y / Tile.SIZE)) {
+				if ((deadTileX == player.getX() / Tile.SIZE || deadTileX - 1 == player.getX() / Tile.SIZE)
+						&& (deadTileY == player.getY() / Tile.SIZE || deadTileY - 1 == player.getY() / Tile.SIZE)) {
 					stop("/data/game-over.png");
 					return;
 				} else {
 
-					deadTileX = player.X / Tile.SIZE + 1;
-					deadTileY = player.Y / Tile.SIZE + 1;
+					deadTileX = player.getX() / Tile.SIZE + 1;
+					deadTileY = player.getY() / Tile.SIZE + 1;
 				}
 			}
 			if (timerTile == 0) {
@@ -385,25 +391,26 @@ public class Game {
 				for (int x = startTileX; x < endTileX; x++) {
 					tileId = map.getTile(x, y);
 
-					if (tileId == 14) {
+					if (tileId == 14/*tileId.equals("Way")*/) {
 
 						if (((x == deadTileX) || (x == deadTileX - 1)) && ((y == deadTileY) || (y == deadTileY - 1))) {
 							tileId = 15;
+							//tileId="Fire1";
 
 							if (timerTile % 8 < 4)
 								tileId = 15;
+							//tileId="Fire1";
 
 							else
 								tileId = 16;
+							//	tileId="Fire2";
 							timerTile = timerTile + 1;
 
 						}
 					}
 					tile = Tile.getTileId(tileId);
-					tile.X = (x - startTileX) * Tile.SIZE;
-					tile.Y = (y - startTileY) * Tile.SIZE;
-					tile.X -= offsetX;
-					tile.Y -= offsetY;
+					tile.setX((x - startTileX) * Tile.SIZE - offsetX);
+					tile.setY((y - startTileY) * Tile.SIZE - offsetY);
 					canvas.addRenders(tile);
 				}
 			}
@@ -412,27 +419,28 @@ public class Game {
 			for (Bot bot : bots) {
 
 				// если бот достиг игрока, игра закончена
-				if (bot.X / Tile.SIZE == player.X / Tile.SIZE && bot.Y / Tile.SIZE == player.Y / Tile.SIZE) {
+				if (bot.getX() / Tile.SIZE == player.getX() / Tile.SIZE
+						&& bot.getY() / Tile.SIZE == player.getY() / Tile.SIZE) {
 					stop("/data/game-over.png");
 					return;
 				}
 
 				// рисуем бота, когда он в зоне видемости
-				if (bot.X >= startTileX * Tile.SIZE && bot.X <= endTileX * Tile.SIZE && bot.Y >= startTileY * Tile.SIZE
-						&& bot.Y <= endTileY * Tile.SIZE) {
+				if (bot.getX() >= startTileX * Tile.SIZE && bot.getX() <= endTileX * Tile.SIZE
+						&& bot.getY() >= startTileY * Tile.SIZE && bot.getY() <= endTileY * Tile.SIZE) {
 					// обновляем точку преследования
-					if (bot.posPlayer(player.X / Tile.SIZE, player.Y / Tile.SIZE)) {
-						bot.mapway = makePath(bot.X / Tile.SIZE, bot.Y / Tile.SIZE, bot.posX, bot.posY);
+					if (bot.posPlayer(player.getX() / Tile.SIZE, player.getY() / Tile.SIZE)) {
+						bot.mapway = makePath(bot.getX() / Tile.SIZE, bot.getY() / Tile.SIZE, bot.posX, bot.posY);
 
 					} else
 						// изменяем положение
-						if (bot.directX != 0 || bot.directY != 0) {
-						bot.X += bot.directX * bot.speed;
-						bot.Y += bot.directY * bot.speed;
+						if (bot.getDirectX() != 0 || bot.getDirectY() != 0) {
+						bot.setX(bot.getX() + bot.getDirectX() * bot.getSpeed());
+						bot.setY(bot.getY() + bot.getDirectY() * bot.getSpeed());
 					}
 
-					bot.posUnitX = (bot.X - startTileX * Tile.SIZE) - offsetX;
-					bot.posUnitY = (bot.Y - startTileY * Tile.SIZE) - offsetY;
+					bot.setPosUnitX((bot.getX() - startTileX * Tile.SIZE) - offsetX);
+					bot.setPosUnitY((bot.getY() - startTileY * Tile.SIZE) - offsetY);
 					canvas.addRenders(bot);
 				}
 			}
@@ -440,16 +448,16 @@ public class Game {
 			if (flag == 0)
 				canvas.addRenders(player);
 
-			if ((player.directX != 0 || player.directY != 0) && possibleMove()) {
+			if ((player.getDirectX() != 0 || player.getDirectY() != 0) && possibleMove()) {
 
-				player.X += player.directX * player.speed;
-				player.Y += player.directY * player.speed;
+				player.setX(player.getX() + player.getDirectX() * player.getSpeed());
+				player.setY(player.getY() + player.getDirectY() * player.getSpeed());
 
 				if (movePlayerX) {
-					player.posUnitX += player.directX * player.speed;
+					player.setPosUnitX(player.getPosUnitX() + player.getDirectX() * player.getSpeed());
 				}
 				if (movePlayerY) {
-					player.posUnitY += player.directY * player.speed;
+					player.setPosUnitY(player.getPosUnitY() + player.getDirectY() * player.getSpeed());
 				}
 			}
 			// движение при нажаии клавиатуры
@@ -458,80 +466,80 @@ public class Game {
 
 					if (x == 0 && y == 1) {
 						if (flag % 24 < 7) {
-							paintPlayer("/data/hero/warr.png", 1304, 39, 80, 60, -10, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1304, 39, 80, 60, -10, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						} else if ((flag % 24 < 12 && flag % 24 > 6) || (flag % 24 > 17)) {
-							paintPlayer("/data/hero/warr.png", 1174, 40, 74, 59, -10, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1174, 40, 74, 59, -10, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 						else if (flag % 24 < 18 && flag % 24 > 11) {
-							paintPlayer("/data/hero/warr.png", 931, 40, 64, 56, 0, -25, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 931, 40, 64, 56, 0, -25, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 					} else if (x == 0 && y == -1) {
 
 						if (flag % 24 < 7) {
-							paintPlayer("/data/hero/warr.png", 1318, 411, 69, 79, 0, -30, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1318, 411, 69, 79, 0, -30, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						} else if ((flag % 24 < 12 && flag % 24 > 6) || (flag % 24 > 17)) {
-							paintPlayer("/data/hero/warr.png", 1193, 421, 66, 69, 10, -30, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1193, 421, 66, 69, 10, -30, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 						else if (flag % 24 < 18 && flag % 24 > 11) {
-							paintPlayer("/data/hero/warr.png", 1067, 421, 57, 66, 10, -30, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1067, 421, 57, 66, 10, -30, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 					} else if (x == 1 && y == 0) {
 						if (flag % 24 < 7) {
-							paintPlayer("/data/hero/warr.png", 807, 684, 56, 60, 10, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 807, 684, 56, 60, 10, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						} else if ((flag % 24 < 12 && flag % 24 > 6) || (flag % 24 > 17)) {
-							paintPlayer("/data/hero/warr.png", 686, 682, 47, 62, 10, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 686, 682, 47, 62, 10, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 						else if (flag % 24 < 18 && flag % 24 > 11) {
-							paintPlayer("/data/hero/warr.png", 555, 681, 53, 60, 10, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 555, 681, 53, 60, 10, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 					} else if (x == -1 && y == 0) {
 
 						if (flag % 24 < 7) {
-							paintPlayer("/data/hero/warr.png", 939, 165, 48, 66, 25, -30, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 939, 165, 48, 66, 25, -30, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						} else if ((flag % 24 < 12 && flag % 24 > 6) || (flag % 24 > 17)) {
-							paintPlayer("/data/hero/warr.png", 1066, 164, 45, 64, 25, -30, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1066, 164, 45, 64, 25, -30, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 						else if (flag % 24 < 18 && flag % 24 > 11) {
-							paintPlayer("/data/hero/warr.png", 1448, 158, 55, 70, 25, -40, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 1448, 158, 55, 70, 25, -40, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 					} else if (x == 0 && y == 0) {
 
 						if (flag1 % 6 < 3) {
-							paintPlayer("/data/hero/warr.png", 42, 686, 48, 57, 20, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 42, 686, 48, 57, 20, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 						else {
-							paintPlayer("/data/hero/warr.png", 170, 686, 47, 57, 20, -35, player.posUnitX,
-									player.posUnitY, 10000);
+							paintPlayer("/data/hero/warr.png", 170, 686, 47, 57, 20, -35, player.getPosUnitX(),
+									player.getPosUnitY(), 10000);
 						}
 
 						flag1 = flag1 + 1;
 					}
 				} else {
 
-					paintPlayer("/data/hero/warr.png", 42, 686, 48, 57, 20, -35, player.posUnitX, player.posUnitY,
-							10000);
+					paintPlayer("/data/hero/warr.png", 42, 686, 48, 57, 20, -35, player.getPosUnitX(),
+							player.getPosUnitY(), 10000);
 
 				}
 				x = 0;
@@ -575,23 +583,25 @@ public class Game {
 		boolean isPossible = true;
 
 		// верх и низ
-		left = (int) Math.ceil((player.X) / Tile.SIZE);
-		right = (int) Math.floor((player.X + player.width - 1) / Tile.SIZE);
-		up = (int) Math.ceil((player.Y + player.speed * player.directY) / Tile.SIZE);
-		down = (int) Math.floor((player.Y + player.height + player.speed * player.directY - 1) / Tile.SIZE);
-		if (player.directY == -1 && !(tileIsPossible(left, up) && tileIsPossible(right, up))) {
+		left = (int) Math.ceil((player.getX()) / Tile.SIZE);
+		right = (int) Math.floor((player.getX() + player.getWidth() - 1) / Tile.SIZE);
+		up = (int) Math.ceil((player.getY() + player.getSpeed() * player.getDirectY()) / Tile.SIZE);
+		down = (int) Math
+				.floor((player.getY() + player.getHeight() + player.getSpeed() * player.getDirectY() - 1) / Tile.SIZE);
+		if (player.getDirectY() == -1 && !(tileIsPossible(left, up) && tileIsPossible(right, up))) {
 			isPossible = false;
-		} else if (player.directY == 1 && !(tileIsPossible(left, down) && tileIsPossible(right, down))) {
+		} else if (player.getDirectY() == 1 && !(tileIsPossible(left, down) && tileIsPossible(right, down))) {
 			isPossible = false;
 		}
 		// право и лево
-		left = (int) Math.ceil((player.X + player.speed * player.directX) / Tile.SIZE);
-		right = (int) Math.floor((player.X + player.width + player.speed * player.directX - 1) / Tile.SIZE);
-		up = (int) Math.ceil((player.Y) / Tile.SIZE);
-		down = (int) Math.floor((player.Y + player.height - 1) / Tile.SIZE);
-		if (player.directX == -1 && !(tileIsPossible(left, up) && tileIsPossible(left, down))) {
+		left = (int) Math.ceil((player.getX() + player.getSpeed() * player.getDirectY()) / Tile.SIZE);
+		right = (int) Math
+				.floor((player.getX() + player.getWidth() + player.getSpeed() * player.getDirectX() - 1) / Tile.SIZE);
+		up = (int) Math.ceil((player.getY()) / Tile.SIZE);
+		down = (int) Math.floor((player.getY() + player.getHeight() - 1) / Tile.SIZE);
+		if (player.getDirectX() == -1 && !(tileIsPossible(left, up) && tileIsPossible(left, down))) {
 			isPossible = false;
-		} else if (player.directX == 1 && !(tileIsPossible(right, up) && tileIsPossible(right, down))) {
+		} else if (player.getDirectX() == 1 && !(tileIsPossible(right, up) && tileIsPossible(right, down))) {
 			isPossible = false;
 		}
 
@@ -603,6 +613,6 @@ public class Game {
 	 */
 	public boolean tileIsPossible(int x, int y) {
 		Tile tile = Tile.getTileId(map.getTile(x, y));
-		return (tile != null && tile.isPossible);
+		return (tile != null && tile.getIsPossible());
 	}
 }

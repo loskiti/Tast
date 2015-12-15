@@ -11,6 +11,7 @@ public class BossMap extends ActionMap {
 
 		int n = 10, m = 8;
 		map = new int[n][m];
+		//map = new String[n][m];
 		try {
 			URL url1 = this.getClass().getResource("/data/in.txt");
 			Scanner sc = new Scanner(url1.openStream());
@@ -19,6 +20,9 @@ public class BossMap extends ActionMap {
 					if (sc.hasNextInt()) {
 						map[i][j] = sc.nextInt();
 					}
+					/*if(sc.hasNext()){
+						map[i][j]=sc.next();
+					}*/
 				}
 			}
 

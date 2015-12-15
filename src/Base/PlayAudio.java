@@ -7,7 +7,7 @@ import javax.sound.sampled.*;
 import java.net.URL;
 
 class PlayAudio {
-	static Clip line;
+	static private Clip line;
 
 	PlayAudio() {
 	}

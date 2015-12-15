@@ -5,7 +5,7 @@ package Map;
  */
 public abstract class ActionMap {
 	protected int map[][];
-
+	//protected String map[][];
 	public int getWidth() {
 		return map[0].length;
 	}
@@ -17,7 +17,7 @@ public abstract class ActionMap {
 	/**
 	 * Возвращает boolean есть ли ячейка
 	 */
-	public boolean Tile(int x, int y) {
+	private boolean isTile(int x, int y) {
 		if ((x >= 0) && (y >= 0) && (y < getHeight()) && (x < getWidth()))
 			return true;
 		return false;
@@ -27,10 +27,15 @@ public abstract class ActionMap {
 	 * Возвращает значение ячейки
 	 */
 	public int getTile(int x, int y) {
-		if (Tile(x, y))
+		if (isTile(x, y))
 			return map[y][x];
 		return 0;
 
 	}
+	/*public String getTile(int x, int y) {
+		if (isTile(x, y))
+			return map[y][x];
+		return null;
 
+	}*/
 }

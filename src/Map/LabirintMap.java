@@ -11,8 +11,8 @@ public class LabirintMap extends ActionMap {
 		// генерация карты
 		int a = 30, b = 30;
 		Random random = new Random();
-		map = new int[a][b];
-
+		 map = new int[a][b];
+		 
 		// первая строка
 		for (int i = 1; i < a; i++) {
 			map[1][i] = i;
@@ -78,6 +78,19 @@ public class LabirintMap extends ActionMap {
 			}
 
 		}
+		/*for (int i = 1; i < b - 1; i++) {
+			for (int j = 1; j < a - 1; j++) {
+				if (map1[i][j] != -1) {
+
+					map[i][j] = "Go";
+
+				} else {
+
+					map[i][j] = "Stop";
+				}
+			}
+
+		}*/
 		// контур карты и специальные ячейки
 		for (int j = 0; j < a; j++) {
 			for (int i = 0; i < b; i++) {
@@ -90,8 +103,21 @@ public class LabirintMap extends ActionMap {
 			}
 
 		}
+		/*for (int j = 0; j < a; j++) {
+			for (int i = 0; i < b; i++) {
+				if (((j == 0) || (j == a - 1)) && ((i != 0) && (i != b - 1)))
+					map[j][i] = "FenceUp";
+
+				if ((i == 0) || (i == b - 1))
+					map[j][i] = "FenceLeft";
+
+			}
+
+		}*/
 		map[0][0] = 10;
+		//map[0][0] = "Post";
 		map[5][5] = 1;
+		//map[5][5] = "Stop";
 		while (true) {
 			int i = (random.nextInt(a - 1)) + 3;
 			int j = (random.nextInt(b - 8) + 1);
@@ -102,7 +128,18 @@ public class LabirintMap extends ActionMap {
 				break;
 			}
 		}
+		/*while (true) {
+			int i = (random.nextInt(a - 1)) + 3;
+			int j = (random.nextInt(b - 8) + 1);
+			if (map[i][j] == "Go") {
+				map[i][j] = "Cave";
+				map[i - 1][j + 3] = "Door";
+				map[i - 1][j + 4] = "Door";
+				break;
+			}
+		}*/
 
 	}
+	}
 
-}
+//}

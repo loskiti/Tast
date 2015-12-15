@@ -13,24 +13,24 @@ public abstract class Unit implements IRenderToConvas {
 	/**
 	 * картинка
 	 */
-	public Image imageUnit;
+	protected Image imageUnit;
 	/**
 	 * реальные координаты персонажа
 	 */
 
-	public int X;
-	public int Y;
-	public int layerDeep;
+	private int X;
+	private int Y;
+	protected int layerDeep;
 	/**
 	 * координаты, видимые на экране
 	 */
-	public int posUnitY;
-	public int posUnitX;
-	public int speed = 5;
-	public int width = 32;
-	public int height = 32;
-	public int directX = 0;
-	public int directY = 0;
+	protected int posUnitY;
+	protected int posUnitX;
+	protected int speed = 5;
+	private int width = 32;
+	private int height = 32;
+	protected int directX = 0;
+	protected int directY = 0;
 	public MapWay mapway;
 
 	/**
@@ -66,17 +66,17 @@ public abstract class Unit implements IRenderToConvas {
 
 	public void update() {
 		if (mapway != null && mapway.isNextPoint()) {
-			if (mapway.p == null) {
+			if (mapway.getP() == null) {
 				mapway.startPoint(X, Y);
 			} else {
 				mapway.nextPoint(speed);
-				if (X != mapway.p.x) {
-					directX = (X > mapway.p.x) ? -1 : 1;
+				if (X != mapway.getP().x) {
+					directX = (X > mapway.getP().x) ? -1 : 1;
 				} else {
 					directX = 0;
 				}
-				if (Y != mapway.p.y) {
-					directY = (Y > mapway.p.y) ? -1 : 1;
+				if (Y != mapway.getP().y) {
+					directY = (Y > mapway.getP().y) ? -1 : 1;
 				} else {
 					directY = 0;
 				}
@@ -91,5 +91,57 @@ public abstract class Unit implements IRenderToConvas {
 
 		return layerDeep;
 
+	}
+
+	public int getX() {
+		return X;
+	}
+
+	public void setX(int X) {
+		this.X = X;
+	}
+
+	public int getY() {
+		return Y;
+	}
+
+	public void setY(int Y) {
+		this.Y = Y;
+	}
+
+	public void setPosUnitY(int posUnitY) {
+		this.posUnitY = posUnitY;
+	}
+
+	public int getPosUnitY() {
+		return posUnitY;
+	}
+	public void setPosUnitX(int posUnitX) {
+		this.posUnitX = posUnitX;
+	}
+
+	public int getPosUnitX() {
+		return posUnitX;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public int getDirectX() {
+		return directX;
+	}
+	public void setDirectX(int directX ) {
+		this.directX= directX;
+	}
+	public int getDirectY() {
+		return directY;
+	}
+	public void setDirectY(int directY ) {
+		this.directY= directY;
 	}
 }

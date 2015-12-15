@@ -12,16 +12,16 @@ public class TileSprite extends Tile {
 	/**
 	 * размеры картинки на спрайте!
 	 */
-	public int width;
-	public int height;
+	private int width;
+	private int height;
 	/**
 	 * Отступ в изображении (координаты изображения на спрайте)
 	 */
 
-	public int offsetX;
-	public int offsetY;
+	private int offsetX;
+	private int offsetY;
 
-	public int layerDeep;
+	private int layerDeep;
 
 	public TileSprite(String image, int posX, int posY, int width, int height, int offsetX, int offsetY,
 			boolean isWalkable, int door, int layerDeep) {

@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -17,14 +18,13 @@ public class Canvas extends JPanel {
 	/**
 	 * двойня буферизация
 	 */
-	public Image bufer = null;
-	public Color backGround = Color.black;
+	private Image bufer = null;
+	private Color backGround = Color.black;
 
 	/**
 	 * элементы, которые надо добавить на экран
 	 */
-	public ArrayList<IRenderToConvas> renders = new ArrayList<IRenderToConvas>();
-	final public static int LAYER_DEEP1 = 100;
+	private List<IRenderToConvas> renders = new ArrayList<IRenderToConvas>();
 
 	public void addRenders(IRenderToConvas render) {
 		renders.add(render);
@@ -37,7 +37,7 @@ public class Canvas extends JPanel {
 	/**
 	 * Сортировка объектов по глубине
 	 */
-	public static Comparator<IRenderToConvas> comparatorDeep = new Comparator<IRenderToConvas>() {
+	private static Comparator<IRenderToConvas> comparatorDeep = new Comparator<IRenderToConvas>() {
 		@Override
 		public int compare(IRenderToConvas o1, IRenderToConvas o2) {
 
@@ -49,7 +49,7 @@ public class Canvas extends JPanel {
 	 * перерисовка карты
 	 */
 
-	public void paintWorld(Graphics g) {
+	private void paintWorld(Graphics g) {
 
 		g.clearRect(0, 0, getWidth(), getHeight());
 		g.setColor(backGround);

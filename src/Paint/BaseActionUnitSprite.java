@@ -4,7 +4,7 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
 	 /**
      * Сделать шаг
      */
-    public void actionStep() {
+    private void actionStep() {
         if(imageMaxX == 10 && imageMinX == 4) {
             return;
         }

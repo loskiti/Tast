@@ -5,15 +5,17 @@ package Map;
  */
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
+
 import Paint.Tile;
 
 public class MapWay {
-	public ArrayList<Point> way;
-	public Point p;
+	public List<Point> way;
+	private Point p;
 	/**
 	 * Текущая позиция
 	 */
-	public int index = 0;
+	private int index = 0;
 
 	public MapWay() {
 		way = new ArrayList<Point>();
@@ -61,8 +63,13 @@ public class MapWay {
 
 		if (p.x == x && p.y == y) {
 			index--;
+
 		}
 
+		return p;
+	}
+
+	public Point getP() {
 		return p;
 	}
 }

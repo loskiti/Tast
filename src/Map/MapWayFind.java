@@ -5,25 +5,26 @@ package Map;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
+import java.util.List;
+import Map.WayPoint;
 public class MapWayFind {
-	public MapWay mapway;
+	private MapWay mapway;
 	/**
 	 * можно ли пройти по плитке
 	 */
-	public IMapCheckPoint checkPoint;
+	private IMapCheckPoint checkPoint;
 	/**
 	 * дошли ли до конца
 	 */
-	public boolean isFinish;
+	private boolean isFinish;
 	/**
 	 * потенциально возможные точки пути
 	 */
-	public ArrayList<WayPoint> nextPoint;
+	private List<WayPoint> nextPoint;
 	/**
 	 * уже найденные точки пути
 	 */
-	protected ArrayList<WayPoint> backPoint;
+	private List<WayPoint> backPoint;
 
 	public MapWay getWay() {
 		return mapway;
@@ -57,7 +58,7 @@ public class MapWayFind {
 
 			// проверяем дошли ли мы до конца
 
-			if (node.x == endx && node.y == endy) {
+			if (node.getX() == endx && node.getY() == endy) {
 
 				// создаем путь
 				makeWay(node);
@@ -66,12 +67,12 @@ public class MapWayFind {
 			} else {
 				// Помечаем точку как просмотренную, что бы не уйти в вечный
 				// цикл
-				node.visited = true;
+				node.setVisited(true);
 				// ставим все потенциально возможные точки
-				addNode(node, node.x + 1, node.y, endx, endy);
-				addNode(node, node.x - 1, node.y, endx, endy);
-				addNode(node, node.x, node.y + 1, endx, endy);
-				addNode(node, node.x, node.y - 1, endx, endy);
+				addNode(node, node.getX() + 1, node.getY(), endx, endy);
+				addNode(node, node.getX() - 1, node.getY(), endx, endy);
+				addNode(node, node.getX(), node.getY() + 1, endx, endy);
+				addNode(node, node.getX(), node.getY() - 1, endx, endy);
 
 			}
 		}
@@ -86,13 +87,13 @@ public class MapWayFind {
 	 * Создание пути из отобранных точек
 	 */
 
-	public void makeWay(WayPoint node) {
+	private void makeWay(WayPoint node) {
 		mapway.clear();
-		while (node.px != -1) {
-			mapway.addPoint(new Point(node.x, node.y));
+		while (node.getPX() != -1) {
+			mapway.addPoint(new Point(node.getX(), node.getY()));
 			// ищем предыдущию
 			for (WayPoint p : backPoint) {
-				if (p.x == node.px && p.y == node.py) {
+				if (p.getX() == node.getPX() && p.getY() == node.getPY()) {
 					node = p;
 					break;
 				}
@@ -104,27 +105,27 @@ public class MapWayFind {
 	 * добавляем возможную точку
 	 */
 
-	public void addNode(WayPoint node, int x, int y, int endx, int endy) {
+	private void addNode(WayPoint node, int x, int y, int endx, int endy) {
 		if (checkPoint.check(x, y)) {
 			int cost = Math.abs(x - endx) + Math.abs(y - endy);
-			WayPoint px = new WayPoint(x, y, node.x, node.y, cost, false);
+			WayPoint px = new WayPoint(x, y, node.getX(), node.getY(), cost, false);
 			WayPoint old = null;
 
 			// проверяем точку на уникальность (p-начало)
 			for (WayPoint p : backPoint) {
-				if (p.x == px.x && p.y == px.y) {
+				if (p.getX() == px.getX() && p.getY() == px.getY()) {
 					old = p;
 					break;
 				}
 			}
 			// Точка уникальна, или стоимость новой точки меньше старой
-			if (old == null || old.cost > cost) {
+			if (old == null || old.getCost() > cost) {
 				backPoint.add(px);
 				int i = 0;
 				for (i = 0; i < nextPoint.size(); i++) {
 					// Ставим точку с меньшой стоимостью в приоритет обхода
 					// потенциальных точек.
-					if (cost < nextPoint.get(i).cost) {
+					if (cost < nextPoint.get(i).getCost()) {
 						nextPoint.add(i, px);
 						break;
 					}
