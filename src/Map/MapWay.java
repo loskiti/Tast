@@ -1,7 +1,7 @@
 package Map;
 
 /**
- * Информация о гененрирующемся пути
+ * РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РіРµРЅРµРЅСЂРёСЂСѓСЋС‰РµРјСЃСЏ РїСѓС‚Рё
  */
 import java.awt.Point;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class MapWay {
 	public List<Point> way;
 	private Point p;
 	/**
-	 * Текущая позиция
+	 * РўРµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ
 	 */
 	private int index = 0;
 
@@ -30,7 +30,7 @@ public class MapWay {
 	}
 
 	/**
-	 * начальная точки
+	 * РЅР°С‡Р°Р»СЊРЅР°СЏ С‚РѕС‡РєРё
 	 */
 	public void startPoint(int x, int y) {
 		p = new Point(x, y);
@@ -38,7 +38,7 @@ public class MapWay {
 	}
 
 	/**
-	 * существует ли точка
+	 * СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚РѕС‡РєР°
 	 */
 
 	public boolean isNextPoint() {
@@ -48,7 +48,7 @@ public class MapWay {
 	}
 
 	/**
-	 * Перейти на следующую точку (если текущую уже прошли)
+	 * РџРµСЂРµР№С‚Рё РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ С‚РѕС‡РєСѓ (РµСЃР»Рё С‚РµРєСѓС‰СѓСЋ СѓР¶Рµ РїСЂРѕС€Р»Рё)
 	 */
 
 	public Point nextPoint(int step) {
