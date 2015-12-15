@@ -1,6 +1,6 @@
 package Map;
 /**
- * Реализация пузырькового алгоритма поиска пути
+ * Р РµР°Р»РёР·Р°С†РёСЏ РїСѓР·С‹СЂСЊРєРѕРІРѕРіРѕ Р°Р»РіРѕСЂРёС‚РјР° РїРѕРёСЃРєР° РїСѓС‚Рё
  */
 
 import java.awt.Point;
@@ -10,19 +10,19 @@ import Map.WayPoint;
 public class MapWayFind {
 	private MapWay mapway;
 	/**
-	 * можно ли пройти по плитке
+	 * РјРѕР¶РЅРѕ Р»Рё РїСЂРѕР№С‚Рё РїРѕ РїР»РёС‚РєРµ
 	 */
 	private IMapCheckPoint checkPoint;
 	/**
-	 * дошли ли до конца
+	 * РґРѕС€Р»Рё Р»Рё РґРѕ РєРѕРЅС†Р°
 	 */
 	private boolean isFinish;
 	/**
-	 * потенциально возможные точки пути
+	 * РїРѕС‚РµРЅС†РёР°Р»СЊРЅРѕ РІРѕР·РјРѕР¶РЅС‹Рµ С‚РѕС‡РєРё РїСѓС‚Рё
 	 */
 	private List<WayPoint> nextPoint;
 	/**
-	 * уже найденные точки пути
+	 * СѓР¶Рµ РЅР°Р№РґРµРЅРЅС‹Рµ С‚РѕС‡РєРё РїСѓС‚Рё
 	 */
 	private List<WayPoint> backPoint;
 
@@ -31,14 +31,14 @@ public class MapWayFind {
 	}
 
 	/**
-	 * проверка прохождения
+	 * РїСЂРѕРІРµСЂРєР° РїСЂРѕС…РѕР¶РґРµРЅРёСЏ
 	 */
 	public void setcheckPoint(IMapCheckPoint checkPoint) {
 		this.checkPoint = checkPoint;
 	}
 
 	/**
-	 * поиск пути
+	 * РїРѕРёСЃРє РїСѓС‚Рё
 	 */
 	public boolean findWay(int startx, int starty, int endx, int endy) {
 		isFinish = false;
@@ -51,24 +51,24 @@ public class MapWayFind {
 		backPoint.add(p);
 		WayPoint node;
 		while (nextPoint.size() > 0) {
-			// Берем первую потенциальную точку из списка.
+			// Р‘РµСЂРµРј РїРµСЂРІСѓСЋ РїРѕС‚РµРЅС†РёР°Р»СЊРЅСѓСЋ С‚РѕС‡РєСѓ РёР· СЃРїРёСЃРєР°.
 
 			node = nextPoint.get(0);
 			nextPoint.remove(0);
 
-			// проверяем дошли ли мы до конца
+			// РїСЂРѕРІРµСЂСЏРµРј РґРѕС€Р»Рё Р»Рё РјС‹ РґРѕ РєРѕРЅС†Р°
 
 			if (node.getX() == endx && node.getY() == endy) {
 
-				// создаем путь
+				// СЃРѕР·РґР°РµРј РїСѓС‚СЊ
 				makeWay(node);
 				isFinish = true;
 				break;
 			} else {
-				// Помечаем точку как просмотренную, что бы не уйти в вечный
-				// цикл
+				// РџРѕРјРµС‡Р°РµРј С‚РѕС‡РєСѓ РєР°Рє РїСЂРѕСЃРјРѕС‚СЂРµРЅРЅСѓСЋ, С‡С‚Рѕ Р±С‹ РЅРµ СѓР№С‚Рё РІ РІРµС‡РЅС‹Р№
+				// С†РёРєР»
 				node.setVisited(true);
-				// ставим все потенциально возможные точки
+				// СЃС‚Р°РІРёРј РІСЃРµ РїРѕС‚РµРЅС†РёР°Р»СЊРЅРѕ РІРѕР·РјРѕР¶РЅС‹Рµ С‚РѕС‡РєРё
 				addNode(node, node.getX() + 1, node.getY(), endx, endy);
 				addNode(node, node.getX() - 1, node.getY(), endx, endy);
 				addNode(node, node.getX(), node.getY() + 1, endx, endy);
@@ -84,14 +84,14 @@ public class MapWayFind {
 	}
 
 	/**
-	 * Создание пути из отобранных точек
+	 * РЎРѕР·РґР°РЅРёРµ РїСѓС‚Рё РёР· РѕС‚РѕР±СЂР°РЅРЅС‹С… С‚РѕС‡РµРє
 	 */
 
 	private void makeWay(WayPoint node) {
 		mapway.clear();
 		while (node.getPX() != -1) {
 			mapway.addPoint(new Point(node.getX(), node.getY()));
-			// ищем предыдущию
+			// РёС‰РµРј РїСЂРµРґС‹РґСѓС‰РёСЋ
 			for (WayPoint p : backPoint) {
 				if (p.getX() == node.getPX() && p.getY() == node.getPY()) {
 					node = p;
@@ -102,7 +102,7 @@ public class MapWayFind {
 	}
 
 	/**
-	 * добавляем возможную точку
+	 * РґРѕР±Р°РІР»СЏРµРј РІРѕР·РјРѕР¶РЅСѓСЋ С‚РѕС‡РєСѓ
 	 */
 
 	private void addNode(WayPoint node, int x, int y, int endx, int endy) {
@@ -111,26 +111,26 @@ public class MapWayFind {
 			WayPoint px = new WayPoint(x, y, node.getX(), node.getY(), cost, false);
 			WayPoint old = null;
 
-			// проверяем точку на уникальность (p-начало)
+			// РїСЂРѕРІРµСЂСЏРµРј С‚РѕС‡РєСѓ РЅР° СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊ (p-РЅР°С‡Р°Р»Рѕ)
 			for (WayPoint p : backPoint) {
 				if (p.getX() == px.getX() && p.getY() == px.getY()) {
 					old = p;
 					break;
 				}
 			}
-			// Точка уникальна, или стоимость новой точки меньше старой
+			// РўРѕС‡РєР° СѓРЅРёРєР°Р»СЊРЅР°, РёР»Рё СЃС‚РѕРёРјРѕСЃС‚СЊ РЅРѕРІРѕР№ С‚РѕС‡РєРё РјРµРЅСЊС€Рµ СЃС‚Р°СЂРѕР№
 			if (old == null || old.getCost() > cost) {
 				backPoint.add(px);
 				int i = 0;
 				for (i = 0; i < nextPoint.size(); i++) {
-					// Ставим точку с меньшой стоимостью в приоритет обхода
-					// потенциальных точек.
+					// РЎС‚Р°РІРёРј С‚РѕС‡РєСѓ СЃ РјРµРЅСЊС€РѕР№ СЃС‚РѕРёРјРѕСЃС‚СЊСЋ РІ РїСЂРёРѕСЂРёС‚РµС‚ РѕР±С…РѕРґР°
+					// РїРѕС‚РµРЅС†РёР°Р»СЊРЅС‹С… С‚РѕС‡РµРє.
 					if (cost < nextPoint.get(i).getCost()) {
 						nextPoint.add(i, px);
 						break;
 					}
 				}
-				// если точка не была вставлена, ставим ее вконец
+				// РµСЃР»Рё С‚РѕС‡РєР° РЅРµ Р±С‹Р»Р° РІСЃС‚Р°РІР»РµРЅР°, СЃС‚Р°РІРёРј РµРµ РІРєРѕРЅРµС†
 				if (i >= nextPoint.size()) {
 					nextPoint.add(px);
 				}
