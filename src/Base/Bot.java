@@ -1,13 +1,13 @@
 package Base;
 
 /**
- * Зомби
+ * Р—РѕРјР±Рё
  */
 import Paint.BaseActionUnitSprite;
 
 public class Bot extends BaseActionUnitSprite {
 	/**
-	 * позиция игрока
+	 * РїРѕР·РёС†РёСЏ РёРіСЂРѕРєР°
 	 */
 	int posX;
 	int posY;
@@ -28,7 +28,7 @@ public class Bot extends BaseActionUnitSprite {
 	}
 
 	/**
-	 * изменилось ли положение игрока
+	 * РёР·РјРµРЅРёР»РѕСЃСЊ Р»Рё РїРѕР»РѕР¶РµРЅРёРµ РёРіСЂРѕРєР°
 	 */
 	public boolean posPlayer(int posX, int posY) {
 		if (posX != this.posX || posY != this.posY) {
