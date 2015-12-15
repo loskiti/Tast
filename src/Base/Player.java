@@ -1,6 +1,6 @@
 package Base;
 /**
- *Игрок
+ *РРіСЂРѕРє
  */
 
 import Paint.BaseActionUnitSprite;
