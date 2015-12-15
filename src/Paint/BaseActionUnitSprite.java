@@ -2,7 +2,7 @@ package Paint;
 
 public abstract class BaseActionUnitSprite extends UnitSprite {
 	 /**
-     * Сделать шаг
+     * РЎРґРµР»Р°С‚СЊ С€Р°Рі
      */
     private void actionStep() {
         if(imageMaxX == 10 && imageMinX == 4) {
@@ -13,7 +13,7 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
     }
     
     /**
-     * Стоять на месте 
+     * РЎС‚РѕСЏС‚СЊ РЅР° РјРµСЃС‚Рµ 
      */
     public void actionStand() {
         if(imageMaxX == 3 && imageMinX == 0) {
@@ -24,28 +24,28 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
     }
     
     /**
-     * Поворот наверх
+     * РџРѕРІРѕСЂРѕС‚ РЅР°РІРµСЂС…
      */
     public void turnTop() {
     	imageMinY = imageMaxY = imageY = 3;
     }
     
     /**
-     * Поворот налево
+     * РџРѕРІРѕСЂРѕС‚ РЅР°Р»РµРІРѕ
      */
     public void turnLeft() {
     	imageMinY = imageMaxY = imageY = 1; 
     }
     
     /**
-     * Поворот направо
+     * РџРѕРІРѕСЂРѕС‚ РЅР°РїСЂР°РІРѕ
      */
     public void turnRight() {
     	imageMinY = imageMaxY = imageY = 5; 
     }
     
     /**
-     * Поворот вниз
+     * РџРѕРІРѕСЂРѕС‚ РІРЅРёР·
      */
     public void turnBoth() {
     	imageMinY = imageMaxY = imageY = 7;
@@ -54,7 +54,7 @@ public abstract class BaseActionUnitSprite extends UnitSprite {
     @Override
     public void update() {
         super.update();
-        //указываем действие и поворот по умолчанию
+        //СѓРєР°Р·С‹РІР°РµРј РґРµР№СЃС‚РІРёРµ Рё РїРѕРІРѕСЂРѕС‚ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
         if(directX == 0 && directY == 0) {
             actionStand();
         } else if(directX == 0 && directY == 1) {
