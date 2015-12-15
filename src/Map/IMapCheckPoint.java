@@ -1,7 +1,7 @@
 package Map;
 
 /**
- * Можно ли пройти по клетке
+ * РњРѕР¶РЅРѕ Р»Рё РїСЂРѕР№С‚Рё РїРѕ РєР»РµС‚РєРµ
  */
 public interface IMapCheckPoint {
 	boolean check(int x, int y);
