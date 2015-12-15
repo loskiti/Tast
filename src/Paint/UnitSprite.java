@@ -11,14 +11,14 @@ public abstract class UnitSprite extends Unit {
 	protected int imageX = 0;
 	protected int imageY = 0;
 	/**
-	 * ïîçèöèè ïðè çàöèêëèâàíèè
+	 * Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð¿Ñ€Ð¸ Ð·Ð°Ñ†Ð¸ÐºÐ»Ð¸Ð²Ð°Ð½Ð¸Ð¸
 	 */
 	protected int imageMinX = 0;
 	protected int imageMinY = 0;
 	protected int imageMaxX = 0;
 	protected int imageMaxY = 0;
 	/**
-	 * äëÿ ðèñîâàíèÿ ðàçìåðû (äëÿ ðàñ÷åòà äðóãèå)
+	 * Ð´Ð»Ñ Ñ€Ð¸ÑÐ¾Ð²Ð°Ð½Ð¸Ñ Ñ€Ð°Ð·Ð¼ÐµÑ€Ñ‹ (Ð´Ð»Ñ Ñ€Ð°ÑÑ‡ÐµÑ‚Ð° Ð´Ñ€ÑƒÐ³Ð¸Ðµ)
 	 */
 
 	protected int paintWidth = 100;
@@ -27,7 +27,7 @@ public abstract class UnitSprite extends Unit {
 	@Override
 	public void render(Graphics g) {
 		update();
-		// ñòàòè÷åñêîå ïîçèöèîíèðîâàíèå
+		// ÑÑ‚Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ
 		int isoX = posUnitX, isoY = posUnitY;
 		if (Game.USE_ISO) {
 			isoX = (posUnitX - posUnitY);
@@ -42,7 +42,7 @@ public abstract class UnitSprite extends Unit {
 
 	@Override
 	public void update() {
-		// çàöèêëèâàåì ïåðåõîä ïî êàäðàì
+		// Ð·Ð°Ñ†Ð¸ÐºÐ»Ð¸Ð²Ð°ÐµÐ¼ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´ Ð¿Ð¾ ÐºÐ°Ð´Ñ€Ð°Ð¼
 		imageX++;
 		if (imageX > imageMaxX) {
 			imageX = imageMinX;
