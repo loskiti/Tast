@@ -1,7 +1,7 @@
 package Main;
 
 /**
- * Меню при входе
+ * РњРµРЅСЋ РїСЂРё РІС…РѕРґРµ
  */
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ import java.net.URL;
 public class StartGame extends JFrame {
 	public StartGame() {
 		JFrame f = new JFrame();
-		f.setTitle("Игра");
+		f.setTitle("РРіСЂР°");
 		f.setBounds(300, 300, 640, 480);
 		f.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		ImagePanel pp = new ImagePanel();
@@ -32,7 +32,7 @@ public class StartGame extends JFrame {
 		}
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0, 1));
-		JButton buttonGame = new JButton("Играть");
+		JButton buttonGame = new JButton("РРіСЂР°С‚СЊ");
 		buttonGame.setSize(100, 30);
 		buttonGame.setBackground(Color.BLACK);
 		buttonGame.setForeground(Color.WHITE);
@@ -40,14 +40,14 @@ public class StartGame extends JFrame {
 		buttonGame.setActionCommand("g");
 		buttonGame.addActionListener(actionListener);
 		panel.add(buttonGame);
-		JButton buttonRule = new JButton("Правила");
+		JButton buttonRule = new JButton("РџСЂР°РІРёР»Р°");
 		buttonRule.setBackground(Color.BLACK);
 		buttonRule.setForeground(Color.WHITE);
 		buttonRule.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		buttonRule.setActionCommand("r");
 		buttonRule.addActionListener(actionListener);
 		panel.add(buttonRule);
-		JButton buttonOut = new JButton("Выход");
+		JButton buttonOut = new JButton("Р’С‹С…РѕРґ");
 		buttonOut.setBackground(Color.BLACK);
 		buttonOut.setForeground(Color.WHITE);
 		buttonOut.setActionCommand("o");
@@ -75,9 +75,9 @@ public class StartGame extends JFrame {
 			}
 			case "r":
 				JOptionPane.showMessageDialog(null,
-						"Задача 1 уровня: дораться до входа в подземелье\n"
-								+ "Задача 2 уровня: продержаться минуту, не попадая в ловушки босса\n",
-						"Правила", JOptionPane.WARNING_MESSAGE);
+						"Р—Р°РґР°С‡Р° 1 СѓСЂРѕРІРЅСЏ: РґРѕСЂР°С‚СЊСЃСЏ РґРѕ РІС…РѕРґР° РІ РїРѕРґР·РµРјРµР»СЊРµ\n"
+								+ "Р—Р°РґР°С‡Р° 2 СѓСЂРѕРІРЅСЏ: РїСЂРѕРґРµСЂР¶Р°С‚СЊСЃСЏ РјРёРЅСѓС‚Сѓ, РЅРµ РїРѕРїР°РґР°СЏ РІ Р»РѕРІСѓС€РєРё Р±РѕСЃСЃР°\n",
+						"РџСЂР°РІРёР»Р°", JOptionPane.WARNING_MESSAGE);
 				break;
 			case "o":
 				System.exit(0);
