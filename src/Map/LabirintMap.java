@@ -1,19 +1,19 @@
 package Map;
 
 /**
- * Уровень с лабиринтом
+ * РЈСЂРѕРІРµРЅСЊ СЃ Р»Р°Р±РёСЂРёРЅС‚РѕРј
  */
 import java.util.Random;
 
 public class LabirintMap extends ActionMap {
 	public LabirintMap() {
 
-		// генерация карты
+		// РіРµРЅРµСЂР°С†РёСЏ РєР°СЂС‚С‹
 		int a = 30, b = 30;
 		Random random = new Random();
 		 map = new int[a][b];
 		 
-		// первая строка
+		// РїРµСЂРІР°СЏ СЃС‚СЂРѕРєР°
 		for (int i = 1; i < a; i++) {
 			map[1][i] = i;
 		}
@@ -25,7 +25,7 @@ public class LabirintMap extends ActionMap {
 				i++;
 			}
 		}
-		// со 2 и до предпоследней
+		// СЃРѕ 2 Рё РґРѕ РїСЂРµРґРїРѕСЃР»РµРґРЅРµР№
 		for (int j = 2; j < b - 2; j++) {
 
 			for (int i = 1; i < a; i++) {
@@ -50,7 +50,7 @@ public class LabirintMap extends ActionMap {
 				}
 			}
 		}
-		// последняя строка
+		// РїРѕСЃР»РµРґРЅСЏСЏ СЃС‚СЂРѕРєР°
 		for (int i = 1; i < a; i++) {
 			if (map[b - 1][i] != -1)
 				if (map[b - 2][i] != -1)
@@ -91,7 +91,7 @@ public class LabirintMap extends ActionMap {
 			}
 
 		}*/
-		// контур карты и специальные ячейки
+		// РєРѕРЅС‚СѓСЂ РєР°СЂС‚С‹ Рё СЃРїРµС†РёР°Р»СЊРЅС‹Рµ СЏС‡РµР№РєРё
 		for (int j = 0; j < a; j++) {
 			for (int i = 0; i < b; i++) {
 				if (((j == 0) || (j == a - 1)) && ((i != 0) && (i != b - 1)))
