@@ -1,6 +1,6 @@
 package Map;
 /**
- * Уровень с боссом
+ * РЈСЂРѕРІРµРЅСЊ СЃ Р±РѕСЃСЃРѕРј
  */
 import java.io.IOException;
 import java.net.URL;
