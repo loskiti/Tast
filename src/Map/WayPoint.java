@@ -1,7 +1,7 @@
 package Map;
 
 /**
- * точка пути
+ * С‚РѕС‡РєР° РїСѓС‚Рё
  */
 
 final public class WayPoint {
