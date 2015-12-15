@@ -1,7 +1,7 @@
 package Map;
 
 /**
- * Äåéñòâèÿ ñ êàðòîé
+ * Ð”ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ Ñ ÐºÐ°Ñ€Ñ‚Ð¾Ð¹
  */
 public abstract class ActionMap {
 	protected int map[][];
@@ -15,7 +15,7 @@ public abstract class ActionMap {
 	}
 
 	/**
-	 * Âîçâðàùàåò boolean åñòü ëè ÿ÷åéêà
+	 * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ boolean ÐµÑÑ‚ÑŒ Ð»Ð¸ ÑÑ‡ÐµÐ¹ÐºÐ°
 	 */
 	private boolean isTile(int x, int y) {
 		if ((x >= 0) && (y >= 0) && (y < getHeight()) && (x < getWidth()))
@@ -24,7 +24,7 @@ public abstract class ActionMap {
 	}
 
 	/**
-	 * Âîçâðàùàåò çíà÷åíèå ÿ÷åéêè
+	 * Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ ÑÑ‡ÐµÐ¹ÐºÐ¸
 	 */
 	public int getTile(int x, int y) {
 		if (isTile(x, y))
