@@ -1,6 +1,6 @@
 package Paint;
 /**
- * одна плитка карты
+ * РѕРґРЅР° РїР»РёС‚РєР° РєР°СЂС‚С‹
  */
 
 import java.awt.Graphics;
@@ -15,17 +15,17 @@ import Base.Game;
 public class Tile implements IRenderToConvas {
 
 	/**
-	 * размер плитки
+	 * СЂР°Р·РјРµСЂ РїР»РёС‚РєРё
 	 */
 	final public static int SIZE = 40;
 	protected String image;
 	/**
-	 * координаты плитки
+	 * РєРѕРѕСЂРґРёРЅР°С‚С‹ РїР»РёС‚РєРё
 	 */
 
 	protected int X;
 	/**
-	 * координаты плитки
+	 * РєРѕРѕСЂРґРёРЅР°С‚С‹ РїР»РёС‚РєРё
 	 */
 	protected int Y;
 	private boolean isPossible;
@@ -67,7 +67,7 @@ public class Tile implements IRenderToConvas {
 	}
 
 	/**
-	 * вернуть изображение по ссылке
+	 * РІРµСЂРЅСѓС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РїРѕ СЃСЃС‹Р»РєРµ
 	 */
 
 	public static Image getImage(String name) {
